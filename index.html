@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dedicatorias | Editor térmico</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">✦</span><div><strong>Dedicatorias</strong><small>editor térmico</small></div></div>
+    <div class="top-actions">
+      <button class="button button-ghost" id="newMessage" title="Crear un mensaje nuevo">＋ Nuevo</button>
+      <button class="button button-ghost" id="saveMessage" title="Guardar mensaje">Guardar</button>
+      <button class="button button-primary" id="printMessage" title="Imprimir solamente el papel">🖨️ Imprimir mensaje</button>
+    </div>
+  </header>
+
+  <main class="workspace">
+    <aside class="sidebar">
+      <section class="side-section">
+        <div class="section-label">Plantillas</div>
+        <select id="templateSelect" class="select-control" aria-label="Elegir plantilla">
+          <option value="personalizada">Personalizada</option>
+          <option value="romantica">Romántica</option>
+          <option value="cumpleanos">Cumpleaños</option>
+          <option value="aniversario">Aniversario</option>
+          <option value="gracias">Gracias</option>
+          <option value="felicitaciones">Felicitaciones</option>
+          <option value="amistad">Amistad</option>
+        </select>
+      </section>
+      <section class="side-section">
+        <div class="section-label">Papel</div>
+        <div class="paper-switch" role="group" aria-label="Ancho del papel">
+          <button class="paper-option is-active" data-width="58">58 mm</button>
+          <button class="paper-option" data-width="80">80 mm</button>
+        </div>
+        <p class="side-note">El ancho de la vista coincide con el papel seleccionado.</p>
+      </section>
+      <section class="side-section quick-section">
+        <div class="section-label">Elementos rápidos</div>
+        <div class="quick-grid">
+          <button data-insert="❤️" title="Insertar corazón">❤️ <span>Corazón</span></button>
+          <button data-insert="✨" title="Insertar estrellas">✨ <span>Estrellas</span></button>
+          <button data-insert="🎁" title="Insertar regalo">🎁 <span>Regalo</span></button>
+          <button data-insert="separator" title="Insertar línea separadora">― <span>Separador</span></button>
+          <button data-insert="date" title="Insertar fecha">▣ <span>Fecha</span></button>
+          <button data-insert="signature" title="Insertar espacio para firma">✎ <span>Firma</span></button>
+        </div>
+      </section>
+      <section class="side-section saved-section">
+        <div class="section-label">Estado</div>
+        <div class="save-state"><span class="status-dot"></span><span id="saveStatus">Guardado automático activo</span></div>
+        <button class="clear-button" id="clearMessage">Borrar contenido</button>
+      </section>
+    </aside>
+
+    <section class="editor-panel">
+      <div class="editor-heading"><div><span class="eyebrow">Mensaje especial</span><h1>Una dedicatoria hecha para guardar</h1></div><span class="paper-badge" id="paperBadge">58 mm</span></div>
+      <div class="toolbar" role="toolbar" aria-label="Herramientas de edición">
+        <div class="tool-group"><button data-command="undo" title="Deshacer">↶</button><button data-command="redo" title="Rehacer">↷</button></div>
+        <span class="tool-divider"></span>
+        <div class="tool-group"><button data-command="cut" title="Cortar">✂</button><button data-command="copy" title="Copiar">▣</button><button data-command="paste" title="Pegar">▤</button><button data-command="selectAll" title="Seleccionar todo">⌘</button></div>
+        <span class="tool-divider"></span>
+        <select id="fontFamily" class="tool-select" title="Tipo de letra"><option value="Arial">Arial</option><option value="Georgia">Georgia</option><option value="Times New Roman">Times New Roman</option><option value="Courier New">Courier New</option><option value="Verdana">Verdana</option><option value="Trebuchet MS">Trebuchet MS</option></select>
+        <select id="fontSize" class="tool-select size-select" title="Tamaño de letra"><option value="1">10</option><option value="2">12</option><option value="3" selected>14</option><option value="4">18</option><option value="5">24</option><option value="6">30</option><option value="7">36</option></select>
+        <span class="tool-divider"></span>
+        <div class="tool-group"><button data-command="bold" title="Negrita"><strong>B</strong></button><button data-command="italic" title="Cursiva"><em>I</em></button><button data-command="underline" title="Subrayado"><u>U</u></button><button data-command="strikeThrough" title="Tachado"><s>S</s></button></div>
+        <label class="color-picker" title="Color del texto"><span>A</span><input type="color" id="textColor" value="#22211f"></label>
+        <span class="tool-divider"></span>
+        <div class="tool-group"><button data-command="justifyLeft" title="Alinear a la izquierda">≡</button><button data-command="justifyCenter" title="Centrar">≡</button><button data-command="justifyRight" title="Alinear a la derecha">≡</button></div>
+        <select id="lineHeight" class="tool-select line-select" title="Interlineado"><option value="1.15">1.15</option><option value="1.5" selected>1.5</option><option value="2">2.0</option></select>
+      </div>
+      <div class="editor-meta"><span>Escribí tu mensaje debajo</span><span id="charCount">0 caracteres</span></div>
+      <div class="paper-wrap"><article class="thermal-paper paper-58" id="thermalPaper"><div id="editor" class="rich-editor" contenteditable="true" spellcheck="true" aria-label="Escribí aquí tu dedicatoria"></div></article></div>
+      <div class="editor-footer"><span id="emojiNotice" class="notice notice-hidden">⚠️ Los emojis gráficos pueden no ser compatibles con tu impresora.</span><button class="preview-button" id="previewMessage">◉ Vista previa</button></div>
+    </section>
+  </main>
+
+  <dialog id="previewDialog" class="preview-dialog"><div class="dialog-head"><div><span class="eyebrow">Vista previa de impresión</span><h2>Así saldrá tu dedicatoria</h2></div><button class="close-button" id="closePreview" title="Cerrar vista previa">×</button></div><div class="preview-stage"><article class="thermal-paper preview-paper paper-58" id="previewPaper"><div id="previewContent"></div></article></div><div class="dialog-actions"><button class="button button-ghost" id="closePreviewBottom">Volver a editar</button><button class="button button-primary" id="printFromPreview">🖨️ Imprimir mensaje</button></div></dialog>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>

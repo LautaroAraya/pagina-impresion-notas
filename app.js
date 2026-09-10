@@ -10,6 +10,7 @@ const previewContent = document.querySelector('#previewContent');
 const previewPaper = document.querySelector('#previewPaper');
 let paperWidth = 58;
 let toastTimer;
+let printRequested = false;
 
 const templates = {
   romantica: 'Para mi amor ❤️\n\nEspero que disfrutes mucho este regalo.\nTe amo muchísimo.\n\nCon amor,\nTu nombre',
@@ -88,10 +89,16 @@ document.querySelector('#clearMessage').addEventListener('click', () => { editor
 document.querySelector('#newMessage').addEventListener('click', () => { editor.innerHTML = ''; templateSelect.value = 'personalizada'; persist(); focusEditor(); showToast('Nuevo mensaje listo'); });
 document.querySelector('#saveMessage').addEventListener('click', () => { persist(); showToast('Mensaje guardado en este dispositivo'); });
 function openPreview() { previewContent.innerHTML = editor.innerHTML || '<span style="color:#aaa">Tu mensaje aparecerá aquí</span>'; previewDialog.showModal(); }
+function printMessage() {
+  if (printRequested) return;
+  printRequested = true;
+  window.print();
+}
 document.querySelector('#previewMessage').addEventListener('click', openPreview);
 document.querySelector('#closePreview').addEventListener('click', () => previewDialog.close());
 document.querySelector('#closePreviewBottom').addEventListener('click', () => previewDialog.close());
-document.querySelector('#printMessage').addEventListener('click', () => window.print());
-document.querySelector('#printFromPreview').addEventListener('click', () => { previewDialog.close(); window.print(); });
+document.querySelector('#printMessage').addEventListener('click', printMessage);
+document.querySelector('#printFromPreview').addEventListener('click', () => { previewDialog.close(); printMessage(); });
 window.addEventListener('beforeprint', () => { document.documentElement.style.setProperty('--print-width', `${paperWidth}mm`); });
+window.addEventListener('afterprint', () => { printRequested = false; });
 restore();

@@ -92,13 +92,23 @@ function openPreview() { previewContent.innerHTML = editor.innerHTML || '<span s
 function printMessage() {
   if (printRequested) return;
   printRequested = true;
-  window.print();
+  previewDialog.close();
+  document.body.classList.add('is-printing');
+  document.documentElement.style.setProperty('--print-width', `${paperWidth}mm`);
+  window.setTimeout(() => window.print(), 50);
 }
 document.querySelector('#previewMessage').addEventListener('click', openPreview);
 document.querySelector('#closePreview').addEventListener('click', () => previewDialog.close());
 document.querySelector('#closePreviewBottom').addEventListener('click', () => previewDialog.close());
 document.querySelector('#printMessage').addEventListener('click', printMessage);
 document.querySelector('#printFromPreview').addEventListener('click', () => { previewDialog.close(); printMessage(); });
-window.addEventListener('beforeprint', () => { document.documentElement.style.setProperty('--print-width', `${paperWidth}mm`); });
-window.addEventListener('afterprint', () => { printRequested = false; });
+window.addEventListener('beforeprint', () => {
+  previewDialog.close();
+  document.body.classList.add('is-printing');
+  document.documentElement.style.setProperty('--print-width', `${paperWidth}mm`);
+});
+window.addEventListener('afterprint', () => {
+  document.body.classList.remove('is-printing');
+  printRequested = false;
+});
 restore();
